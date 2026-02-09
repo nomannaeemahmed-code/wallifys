@@ -1,11 +1,14 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import Logo from '../assets/logo.png'
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import Logo from '../assets/logo.png';
+import { useLocation } from 'react-router-dom';
+import ProfileImage from '../assets/noman.png';
+
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'Products', href: '#', current: false },
-  { name: 'About us', href: '/about', current: false },
-  { name: 'Contact', href: '#', current: false },
+  { name: 'Home', href: '/'  },
+  { name: 'Products', href: '#'  },
+  { name: 'About us', href: '/about' },
+  { name: 'Contact', href: '#'},
 ]
 
 function classNames(...classes) {
@@ -13,6 +16,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+    const location = useLocation(); 
   return (
     <Disclosure as="nav" className="relative" style={{ backgroundColor: '#FCF9EA', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.7)' }}>
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8" >
@@ -40,9 +44,9 @@ export default function Navbar() {
                   <a
                     key={item.name}
                     href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={location.pathname === item.href ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-[#FFA239] text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                      location.pathname === item.href ? 'bg-[#FFA239] text-white' : 'text-gray-300 hover:bg-white/5 hover:text-[#FFA239]',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
@@ -69,7 +73,7 @@ export default function Navbar() {
                 <span className="sr-only">Open user menu</span>
                 <img
                   alt=""
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={ProfileImage}
                   className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
                 />
               </MenuButton>
@@ -115,9 +119,9 @@ export default function Navbar() {
               key={item.name}
               as="a"
               href={item.href}
-              aria-current={item.current ? 'page' : undefined}
+              aria-current={location.pathname === item.href ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                location.pathname === item.href ? 'bg-[#FFA239] text-white' : 'text-gray-300 hover:bg-white/5 hover:text-[#FFA239]',
                 'block rounded-md px-3 py-2 text-base font-medium',
               )}
             >
