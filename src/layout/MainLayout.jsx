@@ -3,6 +3,7 @@ import About from "../Pages/About";
 import { Outlet } from "react-router-dom";
 import Slider from "../Components/Slider";
 import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
 
 
 
@@ -14,6 +15,7 @@ const MainLayout=()=> {
 
 <div><Outlet /></div>
 
+<div><Footer /></div>
 </div>
 
 
