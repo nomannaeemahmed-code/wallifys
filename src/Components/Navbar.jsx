@@ -3,12 +3,17 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Logo from '../assets/logo.png';
 import { useLocation } from 'react-router-dom';
 import ProfileImage from '../assets/noman.png';
-
+// import {ReactComponent as Icon} from '../assets/icons/addtocart.svg';
+import Icons from './Icons/Icons';
+import React,{useContext} from 'react';
+import NoteContext from './context api/NoteContext';
 const navigation = [
   { name: 'Home', href: '/'  },
-  { name: 'Products', href: '#'  },
+  { name: 'Products', href: '/products'  },
   { name: 'About us', href: '/about' },
-  { name: 'Contact', href: '#'},
+  { name: 'Contact', href: '/contact'},
+  // Added new navigation link for the Custom Design page
+  { name: 'Custom Design', href: '/custom-design'},
 ]
 
 function classNames(...classes) {
@@ -17,6 +22,8 @@ function classNames(...classes) {
 
 export default function Navbar() {
     const location = useLocation(); 
+      const {cartCount} = useContext(NoteContext);
+    
   return (
     <Disclosure as="nav" className="relative" style={{ backgroundColor: '#FCF9EA', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.7)' }}>
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8" >
@@ -57,6 +64,7 @@ export default function Navbar() {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <Icons cartCount={cartCount} color="#FFA239" />
             <button
               type="button"
               className="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"

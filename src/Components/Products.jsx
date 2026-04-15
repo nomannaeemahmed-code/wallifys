@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import islamic from "../assets/products/islamic.png";
 import tree from "../assets/products/tree.png";
 import wallClock from "../assets/products/wall clock.png";
@@ -8,6 +9,9 @@ import ramadan from "../assets/products/Ramadan.png";
 import screenshot from "../assets/products/Screenshot 2026-03-09 105831.png";
 import wallDecoration from "../assets/products/Wall Decoration.webp";
 import item from "../assets/products/item.jpg";
+import './Products.css';
+import { useContext } from "react";
+import NoteContext from "./context api/NoteContext";
 
 const products = [
   {
@@ -86,7 +90,7 @@ const products = [
 
 // WhatsApp Button Component
 const WhatsAppButton = ({ product }) => {
-  const phoneNumber = "923183116768"; // apna WhatsApp number yahan daalein (country code ke sath)
+  const phoneNumber = "923003444573"; // apna WhatsApp number yahan daalein (country code ke sath)
 
   // Construct the full URL if href is just "#" (or placeholder) to ensure WhatsApp can crawl it.
   // We'll use the window.location.origin, so if it's hosted, it passes the domain.
@@ -106,7 +110,7 @@ ${productURL}
 
   // final WhatsApp link
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-
+ 
   return (
     <a
       href={whatsappLink}
@@ -126,6 +130,7 @@ ${productURL}
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [cartItems, setCartItems] = useState(0);
 
   const openModal = (product) => {
     setSelectedProduct(product);
@@ -134,15 +139,19 @@ export default function Products() {
   const closeModal = () => {
     setSelectedProduct(null);
   };
-
+  const { updateCartCount } = useContext(NoteContext);
   return (
     <div>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 className="sr-only">Products</h2>
 
         <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
-            <div
+          {products.map((product, index) => (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               key={product.id}
               className="group relative flex flex-col bg-white"
               style={{ border: "1px solid #FFA239", borderRadius: "10px", padding: "10px" }}
@@ -172,19 +181,28 @@ export default function Products() {
               <div className="mt-auto pt-2">
                 <WhatsAppButton product={product} />
               </div>
-            </div>
+              <div className="Add-to-cards">
+                <button  onClick={updateCartCount} style={{cursor:'pointer' }}> Add to Cards</button>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
       {/* Product Details Modal */}
       {selectedProduct && (
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4 transition-opacity"
           onClick={closeModal}
         >
-          <div
-            className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden relative transform transition-all"
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -227,8 +245,8 @@ export default function Products() {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );
